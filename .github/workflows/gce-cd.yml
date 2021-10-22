@@ -7,8 +7,8 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GCE_PROJECT }}
-  GCE_INSTANCE: instance-3  # TODO: update to instance name
-  GCE_INSTANCE_ZONE: us-west1-b   # TODO: update to instance zone
+  GCE_INSTANCE: demo-lineup-dev
+  GCE_INSTANCE_ZONE: us-west1-b
 
 jobs:
   setup-build-publish-deploy:
