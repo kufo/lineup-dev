@@ -11,8 +11,11 @@ def create_app():
 
     with app.app_context():
         from . import routes
+        from . import lineup
+        
 
         app.register_blueprint(routes.main_bp)
+        app.register_blueprint(lineup.lineup_bp)
 
         db.create_all()
 
