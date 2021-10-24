@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GCE_PROJECT }}
-  GCE_INSTANCE: demo-lineup-dev
+  GCE_INSTANCE: demo-lineup-dev2
   GCE_INSTANCE_ZONE: us-west1-b
 
 jobs:
