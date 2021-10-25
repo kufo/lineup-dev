@@ -3,7 +3,8 @@ import random
 import string
 
 from flask import Blueprint
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
+from flask_login import login_required
 
 from .models import Customer, db
 from .forms import LineupForm
@@ -51,3 +52,32 @@ def lineup():
                             form = form, 
                             next_num = nextnum, 
                             waitnum = waitnum)
+
+
+
+@lineup_bp.route("/served")
+@login_required
+def served():
+    customers = Customer.query.\
+            filter_by(status=0).\
+            order_by(Customer.id.asc()).all()
+    waitnum = len(customers)
+    served_customer = None
+    customer_id = request.args.get("customer_id")
+    i = 0
+    if customer_id != None:
+        for customer in customers:
+            if customer.get_id() == customers[i].get_id():
+                served_customer = customers.pop(i)
+            else:
+                i += 1
+    else:
+        if waitnum != 0:
+            served_customer = customers.pop(0)
+            waitnum -= 1
+
+    if served_customer != None:
+        served_customer.change_status(1)
+        db.session.commit()
+
+    return redirect(url_for("main_bp.dashboard"))

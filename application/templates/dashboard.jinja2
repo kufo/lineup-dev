@@ -1,0 +1,44 @@
+{% extends "basic_layout.jinja2" %}
+
+{% block content %}
+<div class="container">
+    <ul>
+        <li>
+            People in the waiting line: {{ waitnum }}
+        </li>
+        <li>
+            <a href="{{ url_for('lineup_bp.served') }}">Next One</a>
+        </li>
+        <li>
+            <a href="{{ url_for('auth_bp.logout') }}">Logout</a>
+        </li>
+    </ul>
+</div>
+
+<div class="container">
+    <h1>Customer List</h1>
+    {% for customer in customers %}
+    <ul id="customer.id">
+        <li>
+            <span class="field-name">ID:</span>
+            <span class="field-value">{{ customer.id }}</span>
+        </li>
+        <li>
+            <span class="field-name">Email:</span>
+            <span class="field-value">{{ customer.email }}</span>
+        </li>
+        <li>
+            <span class="field-name">Phone:</span>
+            <span class="field-value">{{ customer.phone }}</span>
+        </li>
+        <li>
+            <span class="field-name">Status:</span>
+            <span class="field-value">{{ customer.status }}</span>
+        </li>
+        <li>
+        <a href="{{ url_for('lineup_bp.served', customer_id=customer.id) }}">Served</a>
+        </li>
+    </ul>
+    {% endfor %}
+</div>
+{% endblock %}
