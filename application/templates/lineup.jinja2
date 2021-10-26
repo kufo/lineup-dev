@@ -1,35 +1,30 @@
 {% extends "basic_layout.jinja2" %}
 
 
-{% block content %}
-<div>
-    <ul>
-        <li>
-            <h1>Next number: {{ next_num }}</h1>
-        </li>
-        <li>
-            <h1>In line: {{ waitnum }}</h1>
-        </li>
-    </ul>
-</div>
+{% block headblock %}
 
-<div>
-    <h2>Lineup Form</h2>
-    <form method="POST" action="{{ url_for('lineup_bp.lineup') }}">
-        {{ form.hidden_tag() }}
-
-        <fieldset>
-        {{ form.email.label }}
-        {{ form.email }}
-        </fieldset>
-
-        <fieldset>
-        {{ form.phone.label }}
-        {{ form.phone }}
-        </fieldset>
-
-
-        {{ form.submit }}
-    </form>
-</div>
+<link href="{{ url_for('lineup_bp.static', filename='css/signup.css') }}" rel="stylesheet" />
 {% endblock %}
+
+
+{% block content %}
+<main class="form-lineup">
+    <form method="POST" action="{{ url_for('lineup_bp.lineup') }}">
+        <h1 class="h3 mb-3 fw-normal">Next number: {{ next_num }}</h1>
+        <h1 class="h3 mb-3 fw-normal">In line: {{ waitnum }}</h1>
+        {{ form.hidden_tag() }}
+        <div class="form-floating">
+            {{ form.email(class="form-control", type="email", placeholder="name@example.com") }}
+            {{ form.email.label }}
+        </div>
+        <div class="form-floating">
+            {{ form.phone(class="form-control", placeholder="Phone") }}
+            {{ form.phone.label }}
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Lineup</button>
+    </form>
+</main>
+
+{% endblock %}
+
+

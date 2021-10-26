@@ -9,16 +9,11 @@ main_bp = Blueprint("main_bp", __name__,
                     template_folder="templates", 
                     static_folder="static")
 
-@main_bp.route("/")
-def hello():
-    return render_template("index.jinja2", title="DEMO")
-
-
-@main_bp.route("/hello")
-@login_required
-def hi():
-    return "Hi"
-
+@main_bp.route("/", methods=["GET"])
+def index():
+    return render_template(
+        "index.jinja2", 
+        title = "DEMO")
 
 @main_bp.route("/dashboard", methods=["GET"])
 @login_required

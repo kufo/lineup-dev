@@ -24,7 +24,7 @@ def logout():
 def login():
 
     if current_user.is_authenticated:
-        return redirect(url_for("main_bp.hello"))
+        return redirect(url_for("main_bp.dashboard"))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -32,7 +32,7 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user)
             next_page = request.args.get("next")
-            return redirect(next_page or url_for("main_bp.hello"))
+            return redirect(next_page or url_for("main_bp.dashboard"))
 
         return redirect(url_for('auth_bp.login'))
 
@@ -50,7 +50,7 @@ def signup():
             db.session.add(user)
             db.session.commit()
             login_user(user)
-            return redirect(url_for('main_bp.hi'))
+            return redirect(url_for('main_bp.dashboard'))
 
     return render_template("signup.jinja2", title = "DEMO", form = form)
 
