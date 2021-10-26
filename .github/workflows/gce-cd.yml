@@ -37,10 +37,9 @@ jobs:
       # Push the Docker image to Google Container Registry
       - name: Publish
         run: |-
-          docker push "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:$GITHUB_SHA:latest" \
-            --tag "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:latest" .
+          docker push -a "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image"
       - name: Deploy
         run: |-
           gcloud compute instances update-container "$GCE_INSTANCE" \
             --zone "$GCE_INSTANCE_ZONE" \
-            --container-image "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:$GITHUB_SHA"
+            --container-image "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:latest"
