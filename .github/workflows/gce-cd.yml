@@ -1,9 +1,14 @@
-name: Build and Deploy to Google Compute Engine
+name: Restart Google Compute Engine
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI to Docker Hub"]
     branches:
-    - main
+      - main
+    types:
+      -completed
+      
+  workflow_dispatch:
 
 env:
   PROJECT_ID: ${{ secrets.GCE_PROJECT }}
@@ -11,10 +16,8 @@ env:
   GCE_INSTANCE_ZONE: us-west1-b
 
 jobs:
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+  restart:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -29,17 +32,12 @@ jobs:
     # helper for authentication
       - run: |-
           gcloud --quiet auth configure-docker
-      # Build the Docker image
-      - name: Build
+      - name: Stop
         run: |-
-          docker build --tag "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:$GITHUB_SHA" \
-            --tag "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:latest" .
-      # Push the Docker image to Google Container Registry
-      - name: Publish
+          gcloud compute instances stop "$GCE_INSTANCE" \
+            --zone "$GCE_INSTANCE_ZONE"
+      - name: Start
         run: |-
-          docker push -a "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image"
-      - name: Deploy
-        run: |-
-          gcloud compute instances update-container "$GCE_INSTANCE" \
-            --zone "$GCE_INSTANCE_ZONE" \
-            --container-image "gcr.io/$PROJECT_ID/$GCE_INSTANCE-image:$GITHUB_SHA"
+          gcloud compute instances start "$GCE_INSTANCE" \
+            --zone "$GCE_INSTANCE_ZONE"
+      
