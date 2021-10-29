@@ -9,6 +9,7 @@ on:
       - 'main'
     paths-ignore:
       - '.github/**'
+      - '**.md'
 
 
   # Allows you to run this workflow manually from the Actions tab
