@@ -6,7 +6,7 @@ name: CI to Docker Hub
 on:
   push:
     paths-ignore:
-      -'.github/**'
+      -'.github/**/**'
 
 
   # Allows you to run this workflow manually from the Actions tab
