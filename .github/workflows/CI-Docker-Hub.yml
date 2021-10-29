@@ -5,6 +5,8 @@ name: CI to Docker Hub
 # Controls when the workflow will run
 on:
   push:
+    branches: 
+      - 'main'
     paths-ignore:
       - '.github/**'
 
