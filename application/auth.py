@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from flask import Blueprint, url_for, redirect, render_template, request
+from flask import Blueprint, url_for, redirect, render_template, request, flash
 from flask_login import login_user, current_user, login_required, logout_user
+
 
 from . import login_manager
 from .models import User, db
@@ -51,6 +52,8 @@ def signup():
             db.session.commit()
             login_user(user)
             return redirect(url_for('main_bp.dashboard'))
+        else:
+            flash("Email has been used")
 
     return render_template("signup.jinja2", title = "DEMO", form = form)
 

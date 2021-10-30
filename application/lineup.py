@@ -2,7 +2,7 @@ from datetime import datetime
 import random
 import string
 
-from flask import Blueprint
+from flask import Blueprint, flash
 from flask import render_template, redirect, url_for, request
 from flask_login import login_required
 
@@ -24,7 +24,7 @@ def lineup():
         if len(existing_customer) > 0:
             for waiting_customer in existing_customer:
                 if waiting_customer.status == 0:
-                    # flash("You are already in the line.")
+                    flash("You are already in the line.")
                     check_status = False
                     break
 
