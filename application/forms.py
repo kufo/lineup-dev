@@ -1,4 +1,4 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Email, Length, Optional, EqualTo
 
@@ -8,6 +8,7 @@ class LineupForm(FlaskForm):
     )
     phone = StringField("Phone (Optional)", [Optional()])
     submit = SubmitField("Lineup")
+    recaptcha = RecaptchaField()
 
 
 class SignupForm(FlaskForm):
