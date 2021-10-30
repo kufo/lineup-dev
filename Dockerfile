@@ -2,11 +2,11 @@ FROM python:3
 
 WORKDIR /APP
 
-COPY ./requirements.txt /APP
-COPY ./wsgi.py /APP
-COPY ./app.ini /APP
-COPY ./config.py /APP
-COPY ./application /APP/application
+RUN useradd -m -r user && \
+    chown user /APP
+
+COPY . /APP
+
 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt

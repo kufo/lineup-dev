@@ -1,0 +1,4 @@
+temp
+.env
+*.md
+!README*.md
