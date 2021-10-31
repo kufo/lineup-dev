@@ -34,8 +34,9 @@ def login():
             login_user(user)
             next_page = request.args.get("next")
             return redirect(next_page or url_for("main_bp.dashboard"))
-
-        return redirect(url_for('auth_bp.login'))
+        else:
+            flash("Email and password are incorrect")
+            return redirect(url_for('auth_bp.login'))
 
     return render_template("login.jinja2", title = "DEMO", form = form)
 

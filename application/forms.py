@@ -32,3 +32,4 @@ class LoginForm(FlaskForm):
         "Password", [DataRequired()]
     )
     submit = SubmitField("Log In")
+    recaptcha = RecaptchaField()
