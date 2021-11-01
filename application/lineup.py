@@ -63,14 +63,12 @@ def served():
             order_by(Customer.id.asc()).all()
     waitnum = len(customers)
     served_customer = None
-    customer_id = request.args.get("customer_id")
-    i = 0
+    customer_id = int(request.args.get("customer_id"))
+
     if customer_id != None:
         for customer in customers:
-            if customer.get_id() == customers[i].get_id():
-                served_customer = customers.pop(i)
-            else:
-                i += 1
+            if customer_id == customer.get_id():
+                served_customer = customer
     else:
         if waitnum != 0:
             served_customer = customers.pop(0)
