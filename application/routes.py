@@ -20,6 +20,6 @@ def index():
 def dashboard():
     customers = Customer.query.filter_by(status=0).all()
     return render_template(
-        "dashboard.jinja2", 
+        "waiting.jinja2", 
         title = "DEMO", 
         customers=customers, waitnum=len(customers))

@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
@@ -14,6 +15,7 @@ class Customer(db.Model):
 
     def change_status(self, status):
         self.status = status
+        self.c_time = datetime.now()
 
     def get_id(self):
         return self.id

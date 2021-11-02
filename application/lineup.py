@@ -55,27 +55,43 @@ def lineup():
 
 
 
-@lineup_bp.route("/served")
+@lineup_bp.route("/serve")
 @login_required
 def served():
     customers = Customer.query.\
             filter_by(status=0).\
             order_by(Customer.id.asc()).all()
-    waitnum = len(customers)
-    served_customer = None
-    customer_id = int(request.args.get("customer_id"))
 
+    served_customer = None
+
+    customer_id = request.args.get("customer_id")
+    
     if customer_id != None:
+        try:
+            customer_id = int(customer_id)
+        except:
+            return redirect(url_for("main_bp.dashboard"))
+
         for customer in customers:
             if customer_id == customer.get_id():
                 served_customer = customer
     else:
-        if waitnum != 0:
+        if len(customers) != 0:
             served_customer = customers.pop(0)
-            waitnum -= 1
 
     if served_customer != None:
         served_customer.change_status(1)
         db.session.commit()
 
     return redirect(url_for("main_bp.dashboard"))
+
+
+@lineup_bp.route("/served")
+@login_required
+def history():
+    customers = Customer.query.\
+        filter_by(status=1).\
+        order_by(Customer.c_time.desc()).all()
+    return render_template("served.jinja2", 
+                            title = "DEMO", 
+                            customers=customers)
