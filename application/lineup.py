@@ -7,7 +7,7 @@ from flask import render_template, redirect, url_for, request
 from flask_login import login_required
 
 from .models import Customer, db
-from .forms import LineupForm
+from .forms import LineupForm, SearchForm
 
 lineup_bp = Blueprint(
     "lineup_bp", __name__, template_folder = "templates", static_folder = "static"
@@ -89,9 +89,29 @@ def served():
 @lineup_bp.route("/served")
 @login_required
 def history():
+    page = request.args.get('page', 1, type=int)
     customers = Customer.query.\
-        filter_by(status=1).\
-        order_by(Customer.c_time.desc()).all()
+                filter_by(status=1).\
+                order_by(Customer.c_time.desc()).paginate(page=page, per_page=3)
+    
+
     return render_template("served.jinja2", 
                             title = "DEMO", 
-                            customers=customers)
+                            customers=customers,
+                            form=SearchForm())
+
+@lineup_bp.route("/search", methods=["POST"])
+@login_required
+def search():
+    page = request.args.get('page', 1, type=int)
+    form = SearchForm()
+
+    record = Customer.query.filter(
+        Customer.email.ilike(f"%{form.search.data}%")).paginate(page=page, per_page=3)
+    
+    record = None if len(record.items) == 0 else record
+
+    return render_template("served.jinja2", 
+                        title = "DEMO",
+                        customers=record,
+                        form = form)

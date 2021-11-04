@@ -5,6 +5,9 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
         <h2>Served List</h2>
+        {% if customers is none %}
+        <h3>Not Found</h3>
+        {% else %}
         <div class="table-responsive">
             <table class="table table-striped table-sm">
             <thead>
@@ -16,16 +19,42 @@
                 </tr>
             </thead>
             <tbody>
-                {% for customer in customers %}
+                {% for customer in customers.items %}
                 <tr>
                 <td>{{ customer.id }}</td>
                 <td>{{ customer.email }}</td>
                 <td>{{ customer.s_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                {% if customer.c_time is none %}
+                <td>-</td>
+                {% else %}
                 <td>{{ customer.c_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
             </table>
+
+            <!-- Pagination Links-->
+            <div class="text-end">
+                <a href="{{ url_for('lineup_bp.history', page=customers.prev_num) }}" class="btn btn-outline-dark
+                {% if customers.page == 1 %} disabled {% endif %}">&laquo;</a>
+                <!-- Loop through the number of pages to display a link for each-->
+                {% for page_num in customers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                    <!-- Check for the active page and set the link to "Active"-->
+                        {% if customers.page == page_num %}
+                <a href="{{ url_for('lineup_bp.history', page=page_num) }}" class="btn btn-dark">{{ page_num }}</a>
+                        {% else %}
+                <a href="{{ url_for('lineup_bp.history', page=page_num) }}" class="btn btn-outline-dark">{{ page_num }}</a>
+                        {% endif %}
+                    {% else %}
+                    ...
+                    {% endif %}
+                {% endfor %}
+                <a href="{{ url_for('lineup_bp.history', page=customers.next_num) }}" class="btn btn-outline-dark 
+                {% if customers.page == customers.pages %}disabled{% endif %}">&raquo;</a>
+            </div>
         </div>
+        {% endif %}
     </main>
 {% endblock %}

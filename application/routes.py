@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from application.forms import SearchForm
 from flask_login import login_required
 
 
@@ -22,4 +23,6 @@ def dashboard():
     return render_template(
         "waiting.jinja2", 
         title = "DEMO", 
-        customers=customers, waitnum=len(customers))
+        customers=customers, 
+        waitnum=len(customers),
+        form=SearchForm())

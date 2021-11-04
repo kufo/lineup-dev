@@ -12,7 +12,13 @@
     <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <input class="form-control form-control-dark w-100 d-none d-md-block" type="text" placeholder="Search" aria-label="Search">
+    <form class="d-none d-md-block w-100" method="POST" action="{{ url_for('lineup_bp.search') }}">
+        {{ form.hidden_tag() }}
+        <div class="input-group">
+            {{ form.search(placeholder="Customer", class="form-control") }}
+            {{ form.submit(class="btn btn-outline-secondary") }}
+        </div>
+    </form>
     <div class="navbar-nav  d-none d-md-block">
         <div class="nav-item text-nowrap">
             <a class="nav-link px-3" href="{{ url_for('auth_bp.logout') }}">Sign out</a>
@@ -25,7 +31,12 @@
 <div class="container-fluid">
     <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-        <input class="form-control form-control-dark w-100 d-md-none" type="text" placeholder="Search" aria-label="Search">
+        <form class="d-md-none pt-1" method="POST" action="{{ url_for('lineup_bp.search') }}">
+            <div class="input-group d-md-none pt-1">
+                {{ form.search(placeholder="Customer", class="form-control") }}
+                {{ form.submit(class="btn btn-outline-secondary") }}
+            </div>
+        </form>
 
         <div class="position-sticky pt-3">
         <ul class="nav flex-column">

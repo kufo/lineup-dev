@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, SubmitField, PasswordField
+from wtforms.fields.html5 import SearchField
 from wtforms.validators import DataRequired, Email, Length, Optional, EqualTo
 
 class LineupForm(FlaskForm):
@@ -33,3 +34,7 @@ class LoginForm(FlaskForm):
     )
     submit = SubmitField("Log In")
     recaptcha = RecaptchaField()
+
+class SearchForm(FlaskForm):
+    search = SearchField()
+    submit = SubmitField("Search")
